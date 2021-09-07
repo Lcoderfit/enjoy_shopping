@@ -27,6 +27,11 @@ import (
 	1.4 对象方法注册(将路由绑定到指定的对象方法执行)
 	BindObject("/object", b, "Show")
 
+	1.5 指定注册的对象方法
+	例如：s5.BindObject("/object", c, "Show,Order")， 指定注册c的Show和Order方法
+	注意：BindObject方法虽然第三个参数是不定参，但是源码中会判断输入的不定参数是否超过1个，如果超过1个则只会取第一个，
+	另外如果传入空字符会报错：invalid method name
+
 2.BindObjectMethod
 	2.1 对象方法注册
 	BindObjectMethod和BindObject的区别
@@ -168,7 +173,8 @@ func main() {
 
 	// 1.4. 对象方法注册(如果一个对象有多个方法，但是我只想注册其中的一部分，则可以使用BindObject的第三个参数)
 	s5 := g.Server("method register")
-	// 只注册 Controller的Show方法，如果希望注册多个，则多个方法通过英文的逗号隔开
+	// 只注册 Controller的Show方法，如果希望注册多个，则多个方法通过英文的逗号隔开，例如：s5.BindObject("/object", c, "Show,Order")
+	// 注意：BindObject方法虽然第三个参数是不定参，但是源码中会判断输入的不定参数是否超过1个，如果超过1个则只会取第一个，另外如果传入空字符也会注册所有方法
 	// HTTP请求 /object/show 时会调用Show方法
 	s5.BindObject("/object", c, "Show")
 	s5.SetPort(8205)
