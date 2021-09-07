@@ -9,7 +9,7 @@ import (
 /*
 1.函数注册
 2.包方法注册
-3.对象方法注册
+3.对象方法注册(注意，不支持对象注册，只支持对象方法注册)
 4.接口的并发安全性(设置难点)
 */
 
@@ -51,5 +51,13 @@ func main() {
 	s.BindHandler("/total1", c.Total)
 
 	s.SetPort(8199)
-	s.Run()
+	s.Start()
+
+	// 4.不支持对象注册，只支持对象方法注册
+	//s1 := g.Server("object")
+	//s1.BindHandler("/total", c)
+	//s1.SetPort(8200)
+	//s1.Start()
+
+	g.Wait()
 }
