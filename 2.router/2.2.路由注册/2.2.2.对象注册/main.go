@@ -44,7 +44,7 @@ import (
 
 
 3.BindObjectRest
-	3.1 RESTful 对象注册 （只有与HTTP Method同名的对象方法才会被注册，HTTP Method请求会被映射到同名的对象方法）
+	3.1 RESTful 对象注册 （只有与HTTP Method同名且可导出的对象方法才会被注册，HTTP Method请求会被映射到同名的对象方法）
 		如果对象方法与HTTP method不同名，则不会被注册（对外不可见）
 
       SERVER     | DOMAIN  | ADDRESS | METHOD |  ROUTE  |          HANDLER           | MIDDLEWARE
