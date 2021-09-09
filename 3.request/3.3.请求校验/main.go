@@ -94,7 +94,7 @@ func main() {
 			var req RegisterReq
 			if err := r.Parse(&req); err != nil {
 				r.Response.WriteJsonExit(RegisterRes{
-					Code:  1,
+					Code: 1,
 					// gerror.Current获取第一条报错信息
 					Error: gerror.Current(err).Error(),
 				})
