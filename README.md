@@ -18,7 +18,16 @@ gf学习用例
 1.  xxxx
 2.  xxxx
 3.  xxxx
+4.一次性删除所有项目下的二进制文件, 注意，xargs是遍历前一个输入的多行，没遍历到一行就将文件路径传递给rm -rf命令
+find ./ -name gf -o -name main -o -name main.exe* |xargs rm rf
 
+5.在.gitignore中,*.exe只会过滤当前路径下的.exe后缀的文件
+如果需要过滤所有子目录中带哟.exe后缀的文件,用 **表示:
+```text
+**/*.exe
+**/*.exe~
+**/main
+```
 #### 参与贡献
 
 1.  Fork 本仓库
