@@ -7,7 +7,10 @@ import (
 
 /*
 1.设置属性默认值，通过d标签或default标签设置
+<<<<<<< HEAD
 	如果v标签设置了required, 且输入参数为空是时，则Name属性会取d/default标签设置的默认值，即required校验规则不会报错
+=======
+>>>>>>> a56f98fdb7ab09017d9dcd2105507642e2b41c55
 */
 
 type Test struct {
