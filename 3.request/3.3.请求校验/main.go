@@ -40,6 +40,9 @@ import (
 		gerror.Current(err).Error() 获取第一条错误信息
 		curl "http://127.0.0.1:8199/register?name=lco"
 		{"code":1,"error":"账户长度为4到30位","data":null}
+
+	3.4 gf从1.6版本开始，HTTP请求数据的校验不再受结构体默认值影响，也就是说，如果结构体属性没有匹配到参数值，则结构体属性会为其类型对应的零值，
+		但是该零值不会对校验产生影响，校验还是针对参数？？？？？？？？？
 */
 
 // 注册请求数据结构
@@ -94,7 +97,7 @@ func main() {
 			var req RegisterReq
 			if err := r.Parse(&req); err != nil {
 				r.Response.WriteJsonExit(RegisterRes{
-					Code:  1,
+					Code: 1,
 					// gerror.Current获取第一条报错信息
 					Error: gerror.Current(err).Error(),
 				})
