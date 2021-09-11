@@ -14,7 +14,7 @@ import (
 
 2.r.Context()
 	该方法返回r.context的值，所以 r.context = context.WithValue(r.Context(), key, value)其实就相当于对当前r.context的
-	值拷贝一份，然后拷贝后的上下文设置key和value，在将新的上下文重新赋值给r.context (新的r.context比老的r.context多了一对key value的映射关系)
+	值拷贝一份，然后拷贝后的上下文设置key和value，再将新的上下文重新赋值给r.context (新的r.context比老的r.context多了一对key value的映射关系)
 
 3.获取设置的上下文中的变量值
 r.Context().Value(key) 直接返回接口类型的值
@@ -25,8 +25,8 @@ r.GetCtx()返回当前context.Context对象，同r.Context()
 r.GetCtxVar(key, def) 获取当前上下文变量，可以设置当变量不存在时的默认值
 
 r.SetCtx(ctx) 设置自定义context.Context对象
-r.SetCtx(key, value) 设置上下文变量
- */
+r.SetCtxVar(key, value) 设置上下文变量
+*/
 
 const (
 	TraceIdName = "trace-id"

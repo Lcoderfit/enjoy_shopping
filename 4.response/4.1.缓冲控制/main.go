@@ -17,10 +17,10 @@ import (
 	3.1. func (r *Response) Buffer() []byte  将r.buffer（缓冲区）中的数据以[]byte的形式返回
 	func (r *Response) BufferLength() int	返回r.buffer中内容的大小, 单位是字节
 	func (r *Response) BufferString() string 以字符串形式返回r.buffer中的内容
-	func (r *Response) Flush()				先将r.buffer中的内容写入r.writer，然后情况缓冲区(r.buffer) (即将缓冲区数据输出到客户端然后情况缓冲区)
+	func (r *Response) Flush()				先将r.buffer中的内容写入r.writer，然后清空缓冲区(r.buffer) (即将缓冲区数据输出到客户端然后情况缓冲区)
 	func (r *Response) SetBuffer(data []byte)  先清空缓冲区，然后将data写入缓冲区
 	func (r *Response) ClearBuffer() 直接调用r.buffer.Reset()清空缓冲区
- */
+*/
 
 // 后置中间件，都异常进行统一处理
 func MiddlewareErrorHandler(r *ghttp.Request) {
