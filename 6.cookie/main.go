@@ -21,6 +21,9 @@ type Cookie
     func (c *Cookie) SetCookie(key, value, domain, path string, maxAge time.Duration, httpOnly ...bool)
     func (c *Cookie) SetHttpCookie(httpCookie *http.Cookie)
     func (c *Cookie) SetSessionId(id string)
+
+	1.1 默认保存时间为1年
+	1.2 gtime.Datetime() 获取当前时间，时间格式为：2006-01-02 15:04:05
 */
 
 func main() {
