@@ -9,7 +9,9 @@ import (
 1.异常堆栈信息和错误堆栈信息
 	1.1 如果抛出的异常信息并不包含堆栈内容，则WebServer会自动以panic位置为基础创建一个包含堆栈信息的错误对象
 	1.2 如果抛出的异常是一个gerror组件的错误对象，获取实现了堆栈打印接口的错误对象，WebServer会直接打印错误对象，不会自动创建
+		gerror.New("xxx") 创建一个包含堆栈信息的错误
 		gerror.Wrap(err, "UpdateData error"): 将UpdateData error作为err的上层堆栈信息
+
 
 */
 
