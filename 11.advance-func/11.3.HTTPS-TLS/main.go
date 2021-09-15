@@ -10,11 +10,14 @@ func main() {
 	s.BindHandler("/", func(r *ghttp.Request) {
 		r.Response.Writeln("可以同时通过HTTPS和HTTP访问")
 	})
-	s.EnableHTTPS("/server.crt", "/server.key")
-	s.SetPort(80)
-	s.SetHTTPSPort(443)
+	// 证书和密钥的路径
+	s.EnableHTTPS(
+		"/etc/letsencrypt/live/gf.lcoderfit.com/fullchain.pem",
+		"/etc/letsencrypt/live/gf.lcoderfit.com/privkey.pem",
+	)
+	s.SetPort(8200)
+	s.SetHTTPSPort(8201)
 	s.Start()
 
 	g.Wait()
 }
-
