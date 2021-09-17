@@ -145,8 +145,6 @@ func main() {
 	})
 	s4.SetPort(8204)
 	s4.Start()
-	s1.AddStaticPath("/index", "../")
-	s1.AddStaticPath("/index/bin", "")
-	s1.SetPort(8201)
-	s1.Start()
+
+	g.Wait()
 }
