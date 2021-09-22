@@ -57,7 +57,65 @@ import (
 			},
 		}))
 
+	2.3 Cookie设置（尤其是SameSite属性：https://zhuanlan.zhihu.com/p/121048298）
+		2.3.1 http.Cookie配置
+		http.Cookie{
+			// 在Set-Cookie或Cookie字段中携带的token信息的键
+			Name: "_csrf",
+			Secure: true,
+			SameSite: http.SameSiteNoneMode,
+		}
 
+		2.3.2 SameSite配置
+			2.3.2.1 SameSite三种配置
+				SameSite用于限制第三方Cookie，有三种取值：Strict，Lax，None(对应http.SameSiteStrictMode http.SameSiteLaxMode, http.SameSiteNoneMode)
+				http.SameSiteStrictMode就相当于设置Cookie的SameSite属性值为Strict,例如: Set-Cookie:xxx;SameSite=Strict;xxx
+
+			2.3.2.2 SameSiteDefaultMode
+				http.SameSiteDefaultMode会设置Cookie的SameSite属性，但是不会赋值(例如：Set-Cookie:	xxx;SameSite;xxx)，即表示取Chrome默认的SameSite设置
+					注意：同站和同域的区别：具有相同的二级域名则为同站（eTLD+1），例如a.lcoderfit.com和b.lcoderfit.com的二级域名均为lcoderfit.com，所以属于同站
+						但是a.lcoderfit.com和b.lcoderfit.com属于不同域
+
+			2.3.2.3 三种设置的含义(注意：无论是何种设置，同站的情况下均会发送cookie)：
+			https://zhuanlan.zhihu.com/p/121048298
+			http://www.ruanyifeng.com/blog/2019/09/cookie-samesite.html
+				Strict：表示禁止所有第三方Cookie（只有同站的Cookie才被允许）
+				Lax：允许发送部分第三方Cookie（当不用站时,post请求、iframe、ajax、image均不会携带cookie）
+				None:无论是否跨站均会发送Cookie,由于Chrome浏览器从80版本后默认设置由None变为Lax，所以会导致一些网站的ajax，post，iframe，
+					image跨站请求无法携带第三方cookie；
+					此时可以采用一种临时解决方案：强制将SameSite设置为None，然后设置Cookie的Secure属性为true（第三方cookie只能通过https发送，否则无效）
+					例如：跨站脚本攻击时，当用户访问恶意网站B时，网站B自动发送一个请求到A企图修改用户的数据，此时若该请求不是https请求，则不会携带cookie
+					Set-Cookie:SameSite=None; Secure
+					注意：要是SameSitem=None设置有效，则必须设置Secure，否则该设置无效
+
+
+
+3.域名，同站和同源
+	3.1 域名
+		3.1.1 根域名 .
+		3.1.2 顶级域名（一级域名）: .com .cn .org
+		3.1.3 二级域名: a.com b.com c.com
+
+	3.2 同源（SameOrigin）
+		3.2.1 协议+域名+端口均相同即为同源，否则不同源
+
+	3.3 同站(SameSite)
+		3.3.1 site(站)的定义：eTLD+1， 例如https://my-project.github.io 中,github.io即为eTLD，eTLD+1为 my-project.github.io（即为站）
+							其实site可以理解为TLD/eTLD+1 (即二级域名)
+		3.3.2 TLD和eTLD
+			TLD(top-level domain), 顶级域名，如.com .cn
+			eTLD（有效顶级域名，effective top-level domain），简单来说就一个等效于一个顶级域名的二级域名
+				例如有一个.io的顶级域名，github公司注册了github.io，然后该公司想将该
+				域名开放，可以根据github.io注册a.github.io或b.github.io，
+				此时如果仅通过TLD+1来作为站，则a.github.io和b.github.io属于同一个站，
+				但是github.io和a.github.io与b.github.io属于不同的网站，
+				所以需要将github.io看作一个整体，那么a.(github.io)和b.(github.io)就是两个不同的网站了，看作整体的这一部分就是eTLD
+
+		3.3.3 如何确定是否同站？
+			eTLD+1相同即为同站(也可以理解为具有相同的二级域名即为同站)
+
+	3.4 schemeful same-site
+		当协议不同时也属于不同站，例如 http://a.lcoderfit.com和https://a.lcoderfit.com是不同站
 
 客户端：get请求不允许修改数据
 服务端：csrf_token
