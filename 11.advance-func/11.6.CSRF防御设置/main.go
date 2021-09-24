@@ -159,7 +159,7 @@ func main() {
 			r.Response.Writeln(r.Method + ":" + r.RequestURI)
 		})
 		group.ALL("/index", func(r *ghttp.Request) {
-			r.Response.WriteTpl("index.html", g.Map{
+			r.Response.WriteTpl("index_ws.html", g.Map{
 				"token": GetResponseCookie(r, "_csrf"),
 			})
 		})
