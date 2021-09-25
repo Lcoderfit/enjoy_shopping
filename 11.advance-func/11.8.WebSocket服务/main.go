@@ -6,6 +6,20 @@ import (
 	"github.com/gogf/gf/os/glog"
 )
 
+/*
+1.将HTTP请求转换为websocket
+	ws, err := r.WebSocket()
+
+2.ws和wss
+	2.1 支持HTTP的websocket ws://localhost:port/xxx
+	2.2 支持HTTPS的WebSocket wss://localhost:port/xxx
+
+3.读取数据和写入数据
+	// 返回的msg为[]byte类型
+	msgType, msg, err := ws.ReadMessage()
+	ws.WriteMessage(msgType, msg)
+*/
+
 func main() {
 	s := g.Server()
 	s.BindHandler("/", func(r *ghttp.Request) {
