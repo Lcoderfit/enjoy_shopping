@@ -29,7 +29,8 @@ func main() {
 			Name:   "test",
 			Value:  "1234",
 			Secure: true,
-			// 如果SameSite=None，则Secure必须为true，否则请求中无法携带第三方cookie
+			// 如果SameSite=None，则Secure必须为true，否则请求中无法携带第三方cookie;
+			// 这样设置则第三方cookie必须通过HTTPS请求发送
 			SameSite: http.SameSiteNoneMode,
 		})
 	})
