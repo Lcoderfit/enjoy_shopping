@@ -6,6 +6,8 @@ import (
 )
 
 /*
+Hook事件回调
+
 1.r.Exit()和r.Response.WritexxxExit
 	WritexxExit的内部其实是Writexx之后调用了r.Exit退出当前请求流程
 

@@ -7,7 +7,7 @@ import (
 )
 
 /*
-1.CORS跨域请求处理
+1.CORS跨域请求处理(注意：如果不设置跨域，则默认是不允许跨域请求的，如果设置为默认的跨域，即CORSDefault()，情况如下)
 	1.1 func (r *Response) DefaultCORSOptions() CORSOptions
 		返回默认的CORS跨域设置(5个, AllowOrigin, AllowMethods, AllowCredentials,AllowHeaders,MaxAge)
 		AllowOrigin:      "*",	//允许进行跨域请求的域名
@@ -86,6 +86,7 @@ import (
 			r.Response.WriteStatus(http.StatusForbidden)
 		}
 
+7.也可以使用Hook函数来实现跨域，不过一般用中间件居多
 */
 
 func Order(r *ghttp.Request) {
