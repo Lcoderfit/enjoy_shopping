@@ -6,7 +6,8 @@ require (
 	github.com/BurntSushi/toml v0.4.1 // indirect
 	github.com/denisenkom/go-mssqldb v0.10.0 // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
-	github.com/gogf/gf v1.16.6 // indirect
+	github.com/gogf/csrf v0.0.0-20210421070238-9590a2b4f2d7 // indirect
+	github.com/gogf/gf v1.16.6
 	github.com/gogf/gf-cli v1.17.0 // indirect
 	github.com/grokify/html-strip-tags-go v0.0.1 // indirect
 	github.com/lib/pq v1.10.3 // indirect
