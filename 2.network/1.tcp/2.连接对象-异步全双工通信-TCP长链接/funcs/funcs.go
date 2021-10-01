@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"github.com/gogf/gf/errors/gerror"
 	"github.com/gogf/gf/net/gtcp"
-	"learn-gf/2.network/1.tcp/2.连接对象-通信开发进阶/types"
+	"learn-gf/2.network/1.tcp/2.连接对象-异步全双工通信-TCP长链接/types"
 )
 
 // 设置data参数为不定参的作用：可以设置当不传入data参数时的默认参数

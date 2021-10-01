@@ -4,8 +4,8 @@ import (
 	"github.com/gogf/gf/net/gtcp"
 	"github.com/gogf/gf/os/glog"
 	"github.com/gogf/gf/os/gtimer"
-	"learn-gf/2.network/1.tcp/2.连接对象-通信开发进阶/funcs"
-	"learn-gf/2.network/1.tcp/2.连接对象-通信开发进阶/types"
+	"learn-gf/2.network/1.tcp/2.连接对象-异步全双工通信-TCP长链接/funcs"
+	"learn-gf/2.network/1.tcp/2.连接对象-异步全双工通信-TCP长链接/types"
 	"time"
 )
 
@@ -31,7 +31,7 @@ func main() {
 		msg, err := funcs.RecvPkg(conn)
 		if err != nil {
 			if err.Error() == "EOF" {
-				glog.Println("server closed")
+				glog.Println("server1 closed")
 			}
 			break
 		}
