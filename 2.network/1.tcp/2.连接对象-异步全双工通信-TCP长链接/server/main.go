@@ -14,7 +14,7 @@ import (
 	经过delay时间后执行一次job函数
 
 2.gtimer.SetInterval(interval, job)
-	没经过interval时间后执行一次job
+	每经过interval时间后执行一次job
 
 3.异步全双工通信
 */
