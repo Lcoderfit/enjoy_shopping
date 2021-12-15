@@ -35,7 +35,8 @@ Hook事件回调
 			2.3.2.1 在r.Middleware.Next()之前执行r.ExitAll():
 						则所有后续流程均不执行（包括后面注册的中间件，服务函数，HookAfterxxx）
 			2.3.2.2 在r.Middleware.Next()之后执行r.ExitAll():
-						则退出当前中间件流程，都之前注册的中间件的r.Middleware.Next()之后的流程不产生影响，
+						则退出当前中间件流程，对之前注册的中间件的r.Middleware.Next()之后的流程不产生影响，
+						（相当于只是退出当前这一个中间件，但是对其他中间件不产生影响(无论再前还是在后)）
 						但是HookAfterxxx流程将不再执行
 		2.3.3 在服务函数中执行
 			对中间件流程不产生影响，但是会退出HookAfterxx流程
@@ -54,14 +55,23 @@ func MiddlewareTest1(r *ghttp.Request) {
 	g.Log().Line(true).Println("begin middleware t1")
 	r.Middleware.Next()
 	g.Log().Line(true).Println("before middleware-t1 ExitAll")
-	//r.ExitAll()
+	r.ExitAll()
 	g.Log().Line(true).Println("after middleware-t1 ExitAll")
+}
+
+func MiddlewareTest2(r *ghttp.Request) {
+	g.Log().Line(true).Println("begin middleware t2")
+	r.Middleware.Next()
+	g.Log().Line(true).Println("before middleware-t2 ExitAll")
+	//r.ExitAll()
+	g.Log().Line(true).Println("after middleware-t2 ExitAll")
 }
 
 func main() {
 	s := g.Server()
-	s.SetPort(8200)
-	s.Use(MiddlewareTest, MiddlewareTest1)
+	s.SetPort(8202)
+
+	s.Use(MiddlewareTest, MiddlewareTest1, MiddlewareTest2)
 	s.BindHandler("/a", func(r *ghttp.Request) {
 		if r.GetInt("type") == 1 {
 			r.Response.Writeln("smith")
@@ -69,12 +79,22 @@ func main() {
 		}
 		//r.Response.Writeln("john")
 		r.Response.Writeln("john")
-		r.ExitAll()
+		//r.ExitAll()
 	})
 	s.BindHookHandler("/:name", ghttp.HookBeforeServe, func(r *ghttp.Request) {
-		r.Response.Writeln("before-server:hook name")
+		// 一开始,浏览器是会默认请求/favicon.ico这个路由的,但是如果我添加了这个检测,当检测到该路由时,我直接退出
+		// 然后没有任何数据返回,这样浏览器f12时favicon接口显示的就是404 Not Found,一旦显示这个状态码,则下一次浏览器便不会再发送该请求
+		// 如果修改了端口号(例如8200改成8201,注意,要是之前没有试过的端口号,如果8201之前也试过了且浏览器对该端口号不再请求/favicon.ico,
+		// 则你再从8200修改成8201就没有用了,浏览器不会请求/favicon.ico,浏览器应该有一定的缓存时间,在过期前请求都没用的)
+		if r.GetString("name") == "favicon.ico" {
+			r.ExitAll()
+		}
+		r.Response.Writeln("before-server:hook :name")
+	})
+	s.BindHookHandler("/{name}", ghttp.HookBeforeServe, func(r *ghttp.Request) {
+		r.Response.Writeln("before-server:hook {name}")
 		r.Exit()
-		g.Log().Line(true).Println("before-server:hook name")
+		g.Log().Line(true).Println("before-server:hook {name}")
 	})
 	s.BindHookHandler("/*", ghttp.HookBeforeServe, func(r *ghttp.Request) {
 		r.Response.Writeln("before-server:hook any")

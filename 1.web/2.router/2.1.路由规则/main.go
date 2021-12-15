@@ -33,6 +33,7 @@ import (
 // 		层级越深优先级越高
 // 		同一层级下，精准匹配优先级>三种模糊匹配
 // 		同一层级下，字段匹配>命名匹配>模糊匹配 （{} > : > *）
+// TODO:发现问题,命名匹配优先级>字段匹配???
 
 func main() {
 	s := g.Server()
@@ -127,6 +128,29 @@ func main() {
 		r.Response.Writeln("act")
 	})
 	s1.Start()
+
+	s2 := g.Server("s2")
+	s2.BindHookHandler("/{name}", ghttp.HookBeforeServe, func(r *ghttp.Request) {
+		g.Log().Line(true).Println("{name}")
+	})
+	s2.BindHookHandler("/:name", ghttp.HookBeforeServe, func(r *ghttp.Request) {
+		g.Log().Line(true).Println(":name")
+	})
+	s2.BindHookHandler("/*name", ghttp.HookBeforeServe, func(r *ghttp.Request) {
+		g.Log().Line(true).Println("*name")
+	})
+
+	s2.BindHandler("/{name}", func(r *ghttp.Request) {
+		g.Log().Line(true).Println("{name}")
+	})
+	s2.BindHandler("/:name", func(r *ghttp.Request) {
+		g.Log().Line(true).Println(":name")
+	})
+	s2.BindHandler("/*name", func(r *ghttp.Request) {
+		g.Log().Line(true).Println("*name")
+	})
+	s2.SetPort(8201)
+	s2.Start()
 
 	g.Wait()
 }
