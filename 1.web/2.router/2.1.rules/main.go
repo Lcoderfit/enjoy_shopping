@@ -56,22 +56,22 @@ func main() {
 	// http://127.0.0.1:8199/user/info             /:name/:action
 	// http://127.0.0.1:8199/user                  /:name/*any
 	s.BindHandler("/:name", func(r *ghttp.Request) {
-		r.Response.Write("/:name: ", r.URL.Path + "\t" + r.Router.Uri)
+		r.Response.Write("/:name: ", r.URL.Path+"\t"+r.Router.Uri)
 	})
 	s.BindHandler("/:name/update", func(r *ghttp.Request) {
-		r.Response.Write("/:name/update: ", r.URL.Path + "\t" + r.Router.Uri)
+		r.Response.Write("/:name/update: ", r.URL.Path+"\t"+r.Router.Uri)
 
 	})
 	s.BindHandler("/:name/:action", func(r *ghttp.Request) {
-		r.Response.Write("/:name/:action: ", r.URL.Path + "\t" + r.Router.Uri)
+		r.Response.Write("/:name/:action: ", r.URL.Path+"\t"+r.Router.Uri)
 
 	})
 	// 输出结果:/user/list/field.html   /user/list/{field}.html
 	s.BindHandler("/:name/*any", func(r *ghttp.Request) {
-		r.Response.Write("/:name/*any: ", r.URL.Path + "\t" + r.Router.Uri)
+		r.Response.Write("/:name/*any: ", r.URL.Path+"\t"+r.Router.Uri)
 	})
 	s.BindHandler("/user/list/{field}.html", func(r *ghttp.Request) {
-		r.Response.Write("/user/list/{field}.html: ", r.URL.Path + "\t" + r.Router.Uri)
+		r.Response.Write("/user/list/{field}.html: ", r.URL.Path+"\t"+r.Router.Uri)
 	})
 
 	// 该路由仅在GET请求下有效，路由格式： [HTTPMETHOD:]路由规则[@域名]

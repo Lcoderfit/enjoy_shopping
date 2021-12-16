@@ -4,8 +4,8 @@ import (
 	"github.com/gogf/gf/net/gtcp"
 	"github.com/gogf/gf/os/glog"
 	"github.com/gogf/gf/os/gtimer"
-	"learn-gf/2.network/1.tcp/2.连接对象-异步全双工通信-TCP长链接/funcs"
-	"learn-gf/2.network/1.tcp/2.连接对象-异步全双工通信-TCP长链接/types"
+	"learn-gf/2.network/1.tcp/2.Connection-object-Asynchronous-Full-duplex-communication-TCP-long-link/funcs"
+	"learn-gf/2.network/1.tcp/2.Connection-object-Asynchronous-Full-duplex-communication-TCP-long-link/types"
 	"time"
 )
 

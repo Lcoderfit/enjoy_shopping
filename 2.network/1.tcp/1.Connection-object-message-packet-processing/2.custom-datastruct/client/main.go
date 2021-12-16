@@ -6,7 +6,7 @@ import (
 	"github.com/gogf/gf/net/gtcp"
 	"github.com/gogf/gf/os/glog"
 	"github.com/gogf/gf/os/gtime"
-	"learn-gf/2.network/1.tcp/1.连接对象-消息包处理/2.自定义数据结构/types"
+	"learn-gf/2.network/1.tcp/1.Connection-object-message-packet-processing/2.custom-datastruct/types"
 )
 
 func main() {
