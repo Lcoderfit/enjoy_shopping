@@ -8,7 +8,10 @@ import (
 
 /*
 1.通过r.Middleware属性控制请求流程
-	r.Middleware.Next()跳出当前流程，执行下一流程
+	1.1 r.Middleware.Next()跳出当前流程，执行下一流程
+	1.2 可以把每一个func(r *ghttp.Request)中的r看作是当前流程的r，如果在该ghttp.HandlerFunc中调用了其他方法A，并将r传入到A中，
+		则其实在A中操作r就是在操作该ghttp.HandlerFunc的r，例如B是一个ghttp.HandlerFunc,在B中调用了A(r, xxxx),
+		A中使用r.Middleware.Next()其实是推出B这个请求流程，执行B的下一个流程（r.Exit()和r.ExitAll()同理）
 2.中间件类型
 	前置中间件：先执行中间件逻辑，然后r.Middleware.Next()跳到下一个流程
 	后置中间件：先执行r.Middleware.Next()跳到下一流程，然后再执行中间件逻辑
