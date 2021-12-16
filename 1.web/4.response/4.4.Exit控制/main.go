@@ -32,8 +32,9 @@ Hook事件回调
 		2.3.1 如果在HookBeforeServer中执行，则后续所有流程均不会执行（
 			包括中间件也不会执行，因为HookBeforeServer的执行流程在中间件之前）
 		2.3.2 如果在中间件中执行，则分两种情况：
-			2.3.2.1 在r.Middleware.Next()之前执行r.ExitAll():
+			2.3.2.1 在r.Middleware.Next()之前执行r.ExitAll(),或者中间件中没有调用r.Middleware.Next():
 						则所有后续流程均不执行（包括后面注册的中间件，服务函数，HookAfterxxx）
+						但是在该中间件之前注册的中间件的执行不受影响(还是按照洋葱模型执行)
 			2.3.2.2 在r.Middleware.Next()之后执行r.ExitAll():
 						则退出当前中间件流程，对之前注册的中间件的r.Middleware.Next()之后的流程不产生影响，
 						（相当于只是退出当前这一个中间件，但是对其他中间件不产生影响(无论再前还是在后)）
@@ -61,17 +62,24 @@ func MiddlewareTest1(r *ghttp.Request) {
 
 func MiddlewareTest2(r *ghttp.Request) {
 	g.Log().Line(true).Println("begin middleware t2")
-	r.Middleware.Next()
+	r.ExitAll()
 	g.Log().Line(true).Println("before middleware-t2 ExitAll")
-	//r.ExitAll()
 	g.Log().Line(true).Println("after middleware-t2 ExitAll")
+}
+
+func MiddlewareTest3(r *ghttp.Request) {
+	g.Log().Line(true).Println("begin middleware t3")
+	r.Middleware.Next()
+	g.Log().Line(true).Println("before middleware-t3 ExitAll")
+	//r.ExitAll()
+	g.Log().Line(true).Println("after middleware-t3 ExitAll")
 }
 
 func main() {
 	s := g.Server()
 	s.SetPort(8202)
 
-	s.Use(MiddlewareTest, MiddlewareTest1, MiddlewareTest2)
+	s.Use(MiddlewareTest, MiddlewareTest1, MiddlewareTest2, MiddlewareTest3)
 	s.BindHandler("/a", func(r *ghttp.Request) {
 		if r.GetInt("type") == 1 {
 			r.Response.Writeln("smith")
