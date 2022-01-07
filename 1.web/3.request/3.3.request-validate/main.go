@@ -60,7 +60,7 @@ type RegisterRes struct {
 	Data  interface{} `json:"data"`
 }
 
-// 字段值覆盖,r.Parse(&req)会对A/B/C字段进行校验,同时TestInput中的字段也会赋上与TestReq中的同名字段的值
+// r.Parse(&req)会对A/B/C字段进行校验,同时TestInput中的字段也会赋上与TestReq中的同名字段的值
 type TestReq struct {
 	*TestInput
 	A string `v:"required#A不能为空"`
@@ -133,6 +133,7 @@ func main() {
 			}
 			g.Log().Line(true).Println(req)
 			g.Log().Line(true).Println(req.A, req.B, req.C)
+			// r.Parse()会对内部嵌套字段也进行赋值（嵌套的内部字段名如果是可导且与外部结构体字段名相同，则通过r.Parse()解析时，两者会具有相同的值）
 			g.Log().Line(true).Println(req.TestInput)
 
 		})
