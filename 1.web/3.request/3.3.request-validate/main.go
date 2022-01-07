@@ -60,6 +60,19 @@ type RegisterRes struct {
 	Data  interface{} `json:"data"`
 }
 
+// 字段值覆盖,r.Parse(&req)会对A/B/C字段进行校验,同时TestInput中的字段也会赋上与TestReq中的同名字段的值
+type TestReq struct {
+	*TestInput
+	A string `v:"required#A不能为空"`
+	B string `v:"required#B不能为空"`
+	C string `v:"required#C不能为空"`
+}
+
+type TestInput struct {
+	A string
+	B string
+}
+
 func main() {
 	s := g.Server()
 	s.Group("/", func(group *ghttp.RouterGroup) {
@@ -109,6 +122,23 @@ func main() {
 	})
 	s1.SetPort(8201)
 	s1.Start()
+
+	s2 := g.Server("s2")
+	s2.Group("/", func(group *ghttp.RouterGroup) {
+		group.ALL("/login", func(r *ghttp.Request) {
+			var req TestReq
+			if err := r.Parse(&req); err != nil {
+				g.Log().Line(true).Println(err.(gvalid.Error).FirstString())
+				r.Exit()
+			}
+			g.Log().Line(true).Println(req)
+			g.Log().Line(true).Println(req.A, req.B, req.C)
+			g.Log().Line(true).Println(req.TestInput)
+
+		})
+	})
+	s2.SetPort(8202)
+	s2.Start()
 
 	g.Wait()
 }
