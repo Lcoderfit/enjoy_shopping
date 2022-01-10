@@ -1,0 +1,3 @@
+[database]
+    [[database.default]]
+        link = "mysql:root:lcoder124541@tcp(127.0.0.1:3306)/lc-sql"
