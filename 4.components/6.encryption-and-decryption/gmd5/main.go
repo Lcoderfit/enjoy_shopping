@@ -35,8 +35,20 @@ func main() {
 		}
 		r.Response.Writeln(encryptStr)
 	})
+
+	s.BindHandler("/godmin", func(r *ghttp.Request) {
+		password := "lufeit14513"
+		salt := "O73OdcQd43"
+		encryptPass := EncryptPassword(password, salt)
+		g.Log().Line(true).Info(encryptPass)
+		r.Response.Writeln(encryptPass)
+	})
 	s.SetPort(8200)
 	s.Start()
 
 	g.Wait()
+}
+
+func EncryptPassword(password, salt string) string {
+	return gmd5.MustEncryptString(gmd5.MustEncryptString(password) + gmd5.MustEncryptString(salt))
 }
