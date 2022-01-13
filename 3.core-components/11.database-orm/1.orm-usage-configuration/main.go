@@ -1,4 +1,9 @@
-package __orm_usage_configuration
+package main
+
+import (
+	"github.com/gogf/gf/frame/g"
+	"github.com/gogf/gf/net/ghttp"
+)
 
 /*
 orm使用配置:
@@ -125,4 +130,55 @@ https://goframe.org/pages/viewpage.action?pageId=1114245
 		stdout = false # 日志是否同时输出到终端
 
 6.gdb原生配置 TODO
- */
+
+7.sql.Result
+	7.1 result.LastInsertId() 返回(int64, error)类型, 返回的是最后插入的数据的id值
+	7.2 result.RowsAffected() 返回(int64, error)类型, 返回的是影响的数据条数,例如插入N条数据,就返回N
+
+8.db.Model
+	// Model可以传入数据库表名或结构体名称
+	8.1 db.Model("t").Insert(
+		// 插入数据时需要设置的字段值
+		g.Map{
+			"a": 1,
+			"b": 2,
+		}
+	)
+	8.2 由于config.toml配置了createAt = "create_at" ... 等,插入数据时,一开始表t的create_at和update_at字段会自动赋值为当前时间
+		delete_at是软删除时间, 当数据被删除时会自动赋值; update_at是更新时间
+*/
+
+func main() {
+	// 对createAt/updateAt/deleteAt的数据库配置进行测试
+	// 用gf启动，则项目路径为main.go所在的路径
+	g.Cfg().SetPath("../config")
+	db := g.DB("g1")
+	s := g.Server()
+	// 操作数据库的语句最好放在接口中调用,如果放到接口外,gf run main.go启动时,每次更新文件,gf会自动热更新,每次热更新都会重新运行一次main.go
+	s.BindHandler("/", func(r *ghttp.Request) {
+		// 可以是表名,也可以是结构体名称
+		result, err := db.Model("t").Insert(g.Map{
+			"a": "first",
+		})
+		if err != nil {
+			g.Log().Line(true).Error(err)
+			return
+		}
+		lastId, err := result.LastInsertId()
+		if err != nil {
+			g.Log().Line(true).Error(err)
+			return
+		}
+		affectedCount, err := result.RowsAffected()
+		if err != nil {
+			g.Log().Line(true).Error(err)
+			return
+		}
+		g.Log().Line(true).Info("affectedCount: ", affectedCount)
+		g.Log().Line(true).Info("lastInsertId: ", lastId)
+	})
+	s.SetPort(8303)
+	s.Start()
+
+	g.Wait()
+}

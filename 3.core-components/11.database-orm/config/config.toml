@@ -48,3 +48,8 @@
         deleteAt = "delete_at"
         timeMaintainDisabled = false
         ctxStrict = false
+    [[database.g1]]
+        link = "mysql:root:lcoder124541@tcp(127.0.0.1:3306)/lc-sql"
+        createAt = "create_at"
+        updateAt = "update_at"
+        deleteAt = "delete_at"
