@@ -19,7 +19,7 @@ https://goframe.org/pages/viewpage.action?pageId=1114354
 		注意：上面这三个获取环境变量的方法，设置的key是啥就是啥，除了忽略大小写外没有区别，例如:
 		genv.SetMap(g.MapStrStr{"ADDR.PORT": "xx"}), 则只能通过addr.port这个key获取（小写字母可以改成大小字母）
 		但是.是不能写成_的
-	1.4 genv.GetWithCmd(key, def)
+	1.4 genv.GetWithCmd(key, def) 返回*gvar.Var类型
 		1.4.1 优先从环境变量获取，且会将key中字母全部转换为大写，.转换为_
 			genv.Set("gf.debug", "1") 通过 genv.GetWithCmd("gf.debug")是获取不到的,因为从环境变量获取时会将key转换为"GF_DEBUG"
 			genv.Set("GF_DEBUG", "1") 通过 genv.GetWithCmd("gf.debug")是可以获取的
