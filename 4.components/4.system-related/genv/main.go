@@ -20,11 +20,19 @@ https://goframe.org/pages/viewpage.action?pageId=1114354
 		genv.SetMap(g.MapStrStr{"ADDR.PORT": "xx"}), 则只能通过addr.port这个key获取（小写字母可以改成大小字母）
 		但是.是不能写成_的
 	1.4 genv.GetWithCmd(key, def)
-		优先从环境变量获取，且会将key中字母全部转换为大写，.转换为_
-		如果没有，则从命令行中获取，会将key中字母全部转换为小写，_转换为.
-		如果仍没有，则返回def参数设置的默认值
+		1.4.1 优先从环境变量获取，且会将key中字母全部转换为大写，.转换为_
+			genv.Set("gf.debug", "1") 通过 genv.GetWithCmd("gf.debug")是获取不到的,因为从环境变量获取时会将key转换为"GF_DEBUG"
+			genv.Set("GF_DEBUG", "1") 通过 genv.GetWithCmd("gf.debug")是可以获取的
 
-2.设置环境变量
+		1.4.2 如果没有，则从命令行中获取，会将key中字母全部转换为小写，_转换为.
+			./bin/main --gf.debug 1 通过 genv.GetWithCmd("gf.debug")是可以获取到的,因为从环境变量获取时会将key转换为"gf.debug"
+
+		1.4.3 如果仍没有，则返回def参数设置的默认值
+
+2.设置环境变量(只能设置字符串类型的key value)
+	注意：设置的key是啥就是啥，除了忽略大小写外没有区别，例如:
+	genv.Set("gf.debug", "1"), 则只能通过"gf.debug"这个key获取（小写字母可以改成大小字母）,但是.是不能写成_的
+
 	2.1 genv.Set(key, value)
 	2.2 genv.SetMap(map[string]string{"A":"a", "B":"b"})
 
