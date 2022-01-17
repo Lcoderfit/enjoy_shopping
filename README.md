@@ -68,5 +68,5 @@ var res []*StructName
 
 4.Scan called without calling Next
 ```text
-a
+
 ```

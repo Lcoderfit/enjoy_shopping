@@ -13,5 +13,3 @@
 *.out
 
 # config
-**/config.toml
-README.md
