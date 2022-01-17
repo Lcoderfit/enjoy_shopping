@@ -1,0 +1,55 @@
+[database]
+    [[database.default]]
+        link = "mysql:root:123456@tcp(127.0.0.1:3306)/lc-sql"
+    # 每一个分组中可以配置多个节点，一个master(主节点)，多个slave(从节点)
+    [[database.usage]]
+        host = "127.0.0.1"
+        port = "3306"
+        user = "root"
+        pass = "lcoder124541"
+        name = "lc-sql"
+        type = "mysql"
+        # link
+        role = "master"
+        debug = true
+        prefix = "gf_"
+        dryRun = 0
+        charset = "utf8"
+        weight = "50"
+        timezone = "local"
+        maxIdle = "10"
+        maxOpen = "100"
+        maxLifetime = "10s"
+        createAt = "create_at"
+        updateAt = "update_at"
+        deleteAt = "delete_at"
+        timeMaintainDisabled = false
+        ctxStrict = false
+    [[database.usage]]
+        host = "127.0.0.1"
+        port = "3306"
+        user = "root"
+        pass = "lcoder124541"
+        name = "lc-sql"
+        type = "mysql"
+        # link
+        role = "slave"
+        debug = true
+        prefix = "gf_"
+        dryRun = 0
+        charset = "utf8"
+        weight = "50"
+        timezone = "local"
+        maxIdle = "10"
+        maxOpen = "100"
+        maxLifetime = "10s"
+        createAt = "create_at"
+        updateAt = "update_at"
+        deleteAt = "delete_at"
+        timeMaintainDisabled = false
+        ctxStrict = false
+    [[database.g1]]
+        link = "mysql:root:123456@tcp(127.0.0.1:3306)/lc-sql"
+        createAt = "create_at"
+        updateAt = "update_at"
+        deleteAt = "delete_at"
