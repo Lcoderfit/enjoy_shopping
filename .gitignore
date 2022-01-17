@@ -13,3 +13,4 @@
 *.out
 
 # config
+**/config/config.toml
