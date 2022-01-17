@@ -1,6 +1,6 @@
 [database]
     [[database.default]]
-        link = "mysql:root:lcoder124541@tcp(127.0.0.1:3306)/lc-sql"
+        link = "mysql:root:Lcoder66242@tcp(47.101.48.37:3306)/lc-sql"
     # 每一个分组中可以配置多个节点，一个master(主节点)，多个slave(从节点)
     [[database.usage]]
         host = "127.0.0.1"
