@@ -70,3 +70,35 @@ var res []*StructName
 ```text
 
 ```
+
+5.注意:MySQL不能使用update t update a=1 and b=2 where 这种语法, and的语法没有用
+
+6.save: Error 1406: Data too long for column 'name' at row 1, INSERT INTO `user`(`uid`,`name`) VALUES(2,'tianyi-save') 
+ON DUPLICATE KEY UPDATE `uid`=VALUES(`uid`),`name`=VALUES(`name`)
+```text
+Save()插入的数据超过了字段的范围
+```
+
+7.主键或唯一索引重复
+    -- 这个表示插入的数据总的name字段存在重复(name字段是一个唯一索引)
+    ERROR 1062 (23000): Duplicate entry 'tianyi' for key 'name'
+    -- 插入数据时存在主键重复,重复值为2
+    ERROR 1062 (23000): Duplicate entry '2' for key 'PRIMARY'
+```text
+当存在主键或唯一索引重复时则更新:
+    -- `name`=values(`name`)可以动态设置字段name的值,即如果存在主键或唯一索引冲突,更新name的值为values('2', 'tianyi')中name字段的值
+    insert into `user`(`uid`,`name`) values('2', 'tianyi') on duplicate key update `uid`=values(`uid`),`name`=values(`name`);
+
+    -- 插入('2', 'tianyi')时,如果存在重复数据,则更新uid为2, name为'lh'
+    insert into `user`(`uid`,`name`) values('2', 'tianyi') on duplicate key update `uid`='2',`name`='lh';
+    -- 注意,如果表中已经同时有uid为2和3的数据,则下面的语句仍会报错,因为插入uid为2的数据会导致主键冲突,此时会更新这条uid为2的数据为('3', 'lh');
+
+    -- 但是uid=3的数据也是存在的,所以仍会: Duplicate entry '3' for key 'PRIMARY'
+    insert into `user`(`uid`,`name`) values('2', 'tianyi') on duplicate key update `uid`='3',`name`='lh';
+```
+
+8.ERROR 1054 (42S22): Unknown column 'tianyi' in 'field list'
+```text
+-- 在插入数据时将值'tianyi'两边用``括起来，导致MySQL识别成了字段
+insert ignore into `user`(`name`) values(`tianyi`);
+```

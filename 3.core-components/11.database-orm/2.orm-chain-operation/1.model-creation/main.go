@@ -5,8 +5,8 @@ import (
 	"github.com/gogf/gf/net/ghttp"
 )
 
-/*
-orm链式操作-模型创建
+/*orm链式操作-模型创建
+https://goframe.org/pages/viewpage.action?pageId=17203716
 
 1.创建基于数据表的Model对象
 	1.1 g.Model("user") 创建一个基于user表的Model对象(*Model类型)
