@@ -47,6 +47,7 @@ func (m *Model) WhereOrNotNull(columns ...string) *Model
 		1.1.2 字段和值分开传递: Where("name", "lh")/Where("uid>=", 0)
 		1.1.3 Map			Where(g.Map{"name", "lh"})/Where(g.Map{"uid>=", 0})
 		1.1.4 占位符:		Where("uid>=?", 0)/Where("uid>=? or name=?", 2, "lh")
+			Note: 如果是子查询,则要带上占位符?
 		1.1.5 Struct参数
 			type Condition struct {
 				Sex int `orm:sex`

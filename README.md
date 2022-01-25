@@ -102,3 +102,14 @@ Save()插入的数据超过了字段的范围
 -- 在插入数据时将值'tianyi'两边用``括起来，导致MySQL识别成了字段
 insert ignore into `user`(`name`) values(`tianyi`);
 ```
+
+9.Error 1248: Every derived table must have its own alias,
+```text
+每个派生表都需要要有别名,例如
+
+select * from (select * from user)是错误的,因为()里面的sql相当于一个派生表,需要指定一个别名
+
+修正:
+select * from (select * from user) 
+```
+
