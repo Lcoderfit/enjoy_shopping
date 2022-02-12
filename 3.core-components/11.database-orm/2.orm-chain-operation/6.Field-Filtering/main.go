@@ -10,6 +10,9 @@ TODO:查看评论下的问题
 https://goframe.org/pages/viewpage.action?pageId=1114229
 
 一、Fields/FieldsEx字段过滤
+	NOTE: Fields("uid,name", "gender") Fields("uid", "gender")都可以
+	FieldsEx同上
+
 	1.1 Fields("xx", "xx") 指定需要操作的字段，例如查询/写入/更新字段， Fields("name").Where(xx) => select name from xxx where xx
 	1.2 FieldsEx 指定需要排除的字段, FieldsEx("name").Where(xx) 表示查询时不选择name字段
 		m.FieldsEx(xx).Data(xx).Update 更新时过滤一些不必要的字段
